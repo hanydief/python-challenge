@@ -1,21 +1,13 @@
 ## PyPoll Instructions
 
 # In this challenge, you are tasked with helping a small, rural town modernize its vote counting process.
-
 # You will be given a set of poll data called [election_data.csv](PyPoll/Resources/election_data.csv). The dataset is composed of three columns: "Voter ID", "County", and "Candidate". Your task is to create a Python script that analyzes the votes and calculates each of the following:
-
 # * The total number of votes cast
-
 # * A complete list of candidates who received votes
-
 # * The percentage of votes each candidate won
-
 # * The total number of votes each candidate won
-
 # * The winner of the election based on popular vote.
-
 # Your analysis should look similar to the following:
-
 
 #   ```text
 #   Election Results
@@ -32,3 +24,82 @@
 
 # In addition, your final script should both print the analysis to the terminal and export a text file with the results.
 # -----------------------------------------------------------------------------------------------------------------
+
+# First we'll import the os module
+# allows us to create file paths across operating systems & reading CSV files
+import os
+import csv
+
+# declaring/reseting a # of months counter & profit/loss summistion counter & diffrence
+TotalVotes = 0
+VotesCount = []
+NumberOfCandidates = []
+Candidates = {}
+VotesPercentage = []
+
+
+# identifying CSV file directory path
+csvpath = os.path.join('Resources', 'election_data.csv')
+
+# count & compare each line month to line before & after
+with open(csvpath) as csvfile:
+    csvreader = csv.reader(csvfile,delimiter=',')
+    csv_header = next(csvreader)
+    #print(f"CSV Header: {csv_header}")
+
+    TotalVotes = len(VotesCount)
+    #print(TotalVotes)
+
+    for row in csvreader:
+        TotalVotes += 1
+        if row[2] not in Candidates:
+
+            Candidates[row[2]] = 1   # 1st column is the name 2nd is the count
+        else:
+            Candidates[row[2]] += 1
+
+    for key, value in Candidates.items():
+        VotesPercentage.append(round(((value/TotalVotes)*100), 3))
+        print(key,value)
+                #print(f"{key} {value}")
+
+max_key = max(Candidates, key=Candidates.get)
+
+
+
+print(f"\nElection Results") 
+print(f"----------------------------" ) 
+print(f"Total Votes: {TotalVotes}")
+print(f"----------------------------" )  
+print(f"\n{key}, {value/TotalVotes}, {value}")
+#                   f"\n {key} {VotesPercentage}%  {value}" 
+print(f"----------------------------" ) 
+print(f"Winner:  {max_key}\n")
+print(f"----------------------------" ) 
+
+
+ElectionResults = (f"\nElection Results" 
+                   f"\n----------------------------" 
+                   f"\nTotal Votes: {TotalVotes}"
+                   f"\n----------------------------" 
+                   f"\n{Candidates} {VotesPercentage}%  {TotalVotes}" 
+                   f"\n----------------------------" 
+                   f"\nWinner:  {max_key}\n"
+                   f"----------------------------" ) 
+
+print(ElectionResults)
+
+
+# print output to TXT file
+txt_file_path = "analysis/ElectionResults.txt"
+
+with open(txt_file_path, 'w') as f:
+
+    f.write(ElectionResults)
+
+#print(Candidates)
+#print(TotalVotes)
+print(key,value)
+#print(VotesCount)
+#print(VotesPercentage)
+#print(max_key)
