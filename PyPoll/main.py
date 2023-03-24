@@ -58,48 +58,43 @@ with open(csvpath) as csvfile:
         else:
             Candidates[row[2]] += 1
 
-    for key, value in Candidates.items():
-        VotesPercentage.append(round(((value/TotalVotes)*100), 3))
-        print(key,value)
-                #print(f"{key} {value}")
+max_key = max(Candidates, key=Candidates.get)       # identifying candidates with maximum votes
 
-max_key = max(Candidates, key=Candidates.get)
-
-
-
+# Printing as per required
 print(f"\nElection Results") 
 print(f"----------------------------" ) 
 print(f"Total Votes: {TotalVotes}")
 print(f"----------------------------" )  
-print(f"\n{key}, {value/TotalVotes}, {value}")
-#                   f"\n {key} {VotesPercentage}%  {value}" 
+
+# for loop createing a dectionery with key "Candidate" & votes value & percentage in the middle of print to get the exact required format
+for key, value in Candidates.items():
+        VotesPercentage.append(round(((value/TotalVotes)*100), 3))
+        output = f"{key} : {round(((value/TotalVotes)*100), 3)}% ({value})"
+
+        print(output)
+
+# continue Printing as per required 
 print(f"----------------------------" ) 
 print(f"Winner:  {max_key}\n")
 print(f"----------------------------" ) 
 
 
-ElectionResults = (f"\nElection Results" 
-                   f"\n----------------------------" 
-                   f"\nTotal Votes: {TotalVotes}"
-                   f"\n----------------------------" 
-                   f"\n{Candidates} {VotesPercentage}%  {TotalVotes}" 
-                   f"\n----------------------------" 
-                   f"\nWinner:  {max_key}\n"
-                   f"----------------------------" ) 
-
-print(ElectionResults)
-
-
-# print output to TXT file
+#print output to TXT file
 txt_file_path = "analysis/ElectionResults.txt"
 
 with open(txt_file_path, 'w') as f:
 
-    f.write(ElectionResults)
-
+    f.write(f"\nElection Results\n" 
+            f"----------------------------\n" 
+            f"Total Votes: {TotalVotes}\n"
+            f"----------------------------\n" 
+            f"{output}\n"
+            f"----------------------------\n"  
+            f"Winner:  {max_key}\n"
+            f"----------------------------" )
 #print(Candidates)
 #print(TotalVotes)
-print(key,value)
+#print(key,value)
 #print(VotesCount)
 #print(VotesPercentage)
 #print(max_key)
